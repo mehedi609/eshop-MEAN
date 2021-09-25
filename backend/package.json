@@ -12,10 +12,16 @@
     "cors": "^2.8.5"
   },
   "devDependencies": {
-    "prettier": "^2.4.1",
-    "nodemon": "^2.0.13",
+    "@types/mongoose": "^5.11.97",
     "dotenv": "^10.0.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.13",
+    "prettier": "^2.4.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "tabWidth": 2
   },
   "keywords": [],
   "author": "",
