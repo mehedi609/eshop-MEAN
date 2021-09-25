@@ -1,29 +1,25 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
-const app = express();
-
+const cors = require("cors");
 require("dotenv/config");
+
 const api = process.env.API_URL;
 const connectionURI = process.env.MONGOOSE_URI;
+
+const { productRouter } = require("./routers/products.router");
+
+const app = express();
+
+app.use(cors());
+app.options("*", cors());
 
 // Middlewares
 app.use(express.json());
 app.use(morgan("tiny"));
 
-app.get(`${api}/products`, (req, res) => {
-  const product = {
-    id: 1,
-    name: "hair dresser",
-    image: "some_url",
-  };
-  return res.json(product);
-});
-
-app.post(`${api}/products`, (req, res) => {
-  const newProduct = req.body;
-  return res.json(newProduct);
-});
+// Routers
+app.use(`${api}/products`, productRouter);
 
 mongoose
   .connect(connectionURI)
