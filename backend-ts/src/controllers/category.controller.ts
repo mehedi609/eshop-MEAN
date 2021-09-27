@@ -18,7 +18,7 @@ export const getCategory = async (req: Request, res: Response) => {
         if (!category) {
             return res.status(404).json({
                 success: false,
-                message: 'The category with given ID was not fould!',
+                message: 'The category with given ID was not found!',
             });
         }
 
@@ -53,7 +53,7 @@ export const addCategory = async (req: Request, res: Response) => {
 export const updateCategory = async (req: Request, res: Response) => {
     const { name, icon, color } = req.body;
     try {
-        const updatedCategory = await Category.findByIdAndUpdate(
+        const updatedCategory: ICategory = await Category.findByIdAndUpdate(
             req.params.id,
             {
                 name,

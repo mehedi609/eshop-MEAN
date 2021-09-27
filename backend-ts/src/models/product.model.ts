@@ -63,6 +63,14 @@ const productSchema: Schema = new Schema<IProduct>(
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );
 
+productSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+productSchema.set('toJSON', {
+    virtuals: true,
+});
+
 export const Product: Model<IProduct> = model<IProduct>(
     'Product',
     productSchema
