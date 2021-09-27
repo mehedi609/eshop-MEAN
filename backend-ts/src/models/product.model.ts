@@ -57,6 +57,7 @@ const productSchema: Schema = new Schema<IProduct>(
         },
         dateCreated: {
             type: Date,
+            default: Date.now,
         },
     },
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
