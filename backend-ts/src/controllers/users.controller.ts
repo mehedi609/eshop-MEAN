@@ -91,9 +91,13 @@ export const login = async (req: Request, res: Response) => {
         }
 
         const secret = process.env.SECRET;
-        const token = jwt.sign({ userId: user.id }, secret, {
-            expiresIn: '1w',
-        });
+        const token = jwt.sign(
+            { userId: user.id, isAdmin: user.isAdmin },
+            secret,
+            {
+                expiresIn: '1w',
+            }
+        );
 
         return res.status(200).json({ email: user.email, token });
     } catch (e) {
@@ -145,6 +149,33 @@ export const updateUser = async (req: Request, res: Response) => {
         }
 
         return res.status(201).json(updatedUser);
+    } catch (e) {
+        return res.status(500).json({ success: false, error: e });
+    }
+};
+
+export const removeUser = async (req: Request, res: Response) => {
+    try {
+        const user: IUser = await User.findByIdAndRemove(req.params.id);
+        if (user) {
+            return res
+                .status(200)
+                .json({ success: true, message: 'User is deleted!' });
+        } else {
+            return res
+                .status(404)
+                .json({ success: false, message: 'User not found!' });
+        }
+    } catch (e) {
+        return res.status(500).json({ success: false, error: e });
+    }
+};
+
+export const getTotalUsers = async (req: Request, res: Response) => {
+    try {
+        const userCount = await User.estimatedDocumentCount();
+
+        return res.status(200).json({ userCount });
     } catch (e) {
         return res.status(500).json({ success: false, error: e });
     }

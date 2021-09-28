@@ -6,6 +6,8 @@ import morgan from 'morgan';
 import { categoryRouter } from './routers/category.router';
 import { productRouter } from './routers/product.router';
 import { userRouter } from './routers/user.router';
+import { authJwt } from './helpers/jwt';
+import { errorHandler } from './helpers/error-handler';
 
 dotenv.config();
 const port = process.env.SERVER_PORT;
@@ -19,6 +21,8 @@ app.use(cors());
 // Middlewares
 app.use(express.json());
 app.use(morgan('tiny'));
+app.use(authJwt());
+app.use(errorHandler);
 
 // Routers
 app.use(`${api}/categories`, categoryRouter);
