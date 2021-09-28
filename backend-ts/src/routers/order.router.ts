@@ -1,9 +1,14 @@
 import { Router } from 'express';
+import {
+    addOrder,
+    getAllOrders,
+    getOrder,
+} from '../controllers/order.controller';
 
 const router = Router();
 
-router.route('/').get().post();
+router.route('/').get(getAllOrders).post(addOrder);
 
-router.route('/:id').delete();
+router.route('/:id').get(getOrder);
 
 export const orderRouter = router;

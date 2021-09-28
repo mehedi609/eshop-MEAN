@@ -3,11 +3,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { connect } from 'mongoose';
 import morgan from 'morgan';
+import { errorHandler } from './helpers/error-handler';
+import { authJwt } from './helpers/jwt';
 import { categoryRouter } from './routers/category.router';
 import { productRouter } from './routers/product.router';
 import { userRouter } from './routers/user.router';
-import { authJwt } from './helpers/jwt';
-import { errorHandler } from './helpers/error-handler';
+import { orderRouter } from './routers/order.router';
 
 dotenv.config();
 const port = process.env.SERVER_PORT;
@@ -28,6 +29,7 @@ app.use(errorHandler);
 app.use(`${api}/categories`, categoryRouter);
 app.use(`${api}/products`, productRouter);
 app.use(`${api}/users`, userRouter);
+app.use(`${api}/orders`, orderRouter);
 
 // connect to mongoodb
 (async () => {
