@@ -14,6 +14,14 @@ const categorySchema: Schema = new Schema<ICategory>({
     },
 });
 
+categorySchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+categorySchema.set('toJSON', {
+    virtuals: true,
+});
+
 export const Category: Model<ICategory> = model<ICategory>(
     'Category',
     categorySchema

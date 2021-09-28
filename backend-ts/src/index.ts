@@ -5,6 +5,7 @@ import { connect } from 'mongoose';
 import morgan from 'morgan';
 import { categoryRouter } from './routers/category.router';
 import { productRouter } from './routers/product.router';
+import { userRouter } from './routers/user.router';
 
 dotenv.config();
 const port = process.env.SERVER_PORT;
@@ -22,6 +23,7 @@ app.use(morgan('tiny'));
 // Routers
 app.use(`${api}/categories`, categoryRouter);
 app.use(`${api}/products`, productRouter);
+app.use(`${api}/users`, userRouter);
 
 // connect to mongoodb
 (async () => {

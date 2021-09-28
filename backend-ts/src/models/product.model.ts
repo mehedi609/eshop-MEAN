@@ -63,7 +63,7 @@ const productSchema: Schema = new Schema<IProduct>(
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );
 
-productSchema.virtual('id').get(function () {
+productSchema.virtual('id').get(function (): string {
     return this._id.toHexString();
 });
 
