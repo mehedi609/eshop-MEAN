@@ -39,11 +39,17 @@ export const getProduct = async (req: Request, res: Response) => {
 };
 
 export const addProduct = async (req: Request, res: Response) => {
+    if (!req.file) {
+        return res.status(404).json({
+            success: false,
+            message: 'You must provide a valid file!',
+        });
+    }
+
     const {
         name,
         description,
         richDescription,
-        image,
         brand,
         price,
         category,
@@ -54,6 +60,8 @@ export const addProduct = async (req: Request, res: Response) => {
         isFeatured,
     } = req.body;
 
+    // return res.json(req.file);
+
     const existingCategory: ICategory = await Category.findById(category);
     if (!existingCategory) {
         return res.status(404).json({
@@ -62,11 +70,15 @@ export const addProduct = async (req: Request, res: Response) => {
         });
     }
 
+    const imageWithPath = `${req.protocol}://${req.get('host')}/${
+        req.file.path
+    }`;
+
     const newProduct: IProduct = new Product({
         name,
         description,
         richDescription,
-        image,
+        image: imageWithPath,
         brand,
         price,
         category,
@@ -168,6 +180,50 @@ export const removeProduct = async (req: Request, res: Response) => {
                 .status(404)
                 .json({ success: false, message: 'product not found!' });
         }
+    } catch (e) {
+        return res.status(500).json({ success: false, error: e });
+    }
+};
+
+export const uploadGalleryImages = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    if (!isValidObjectId(id)) {
+        return res.status(400).json({
+            success: false,
+            message: 'Invalid Product ID!',
+        });
+    }
+
+    const files = req.files as [];
+
+    if (!files.length) {
+        return res.status(404).json({
+            success: false,
+            message: 'You must provide a valid file or files!',
+        });
+    }
+
+    const imagesWithPath = files?.map(
+        (file: any) => `${req.protocol}://${req.get('host')}/${file.path}`
+    );
+
+    try {
+        const updatedProduct: IProduct = await Product.findByIdAndUpdate(
+            id,
+            {
+                images: imagesWithPath,
+            },
+            { new: true }
+        );
+
+        if (!updatedProduct) {
+            return res.status(400).json({
+                success: false,
+                message: 'Product cannot be updated!',
+            });
+        }
+
+        return res.status(201).json(updatedProduct);
     } catch (e) {
         return res.status(500).json({ success: false, error: e });
     }
