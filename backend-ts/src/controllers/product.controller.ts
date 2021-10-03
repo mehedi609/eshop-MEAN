@@ -116,7 +116,6 @@ export const updateProduct = async (req: Request, res: Response) => {
         name,
         description,
         richDescription,
-        image,
         brand,
         price,
         category,
@@ -127,22 +126,41 @@ export const updateProduct = async (req: Request, res: Response) => {
         isFeatured,
     } = req.body;
 
-    const existingCategory: ICategory = await Category.findById(category);
-    if (!existingCategory) {
-        return res.status(404).json({
-            success: false,
-            message: 'The category with given ID was not found!',
-        });
-    }
-
     try {
+        const product: IProduct = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: 'Product with given ID was not found!',
+            });
+        }
+
+        const file = req.file;
+        let imagePath: string;
+
+        if (file) {
+            imagePath = `${req.protocol}://${req.get('host')}/${file.path}`;
+        } else {
+            imagePath = product.image;
+        }
+
+        const categoryId: string = category ? category : product.category;
+
+        const existingCategory: ICategory = await Category.findById(categoryId);
+        if (!existingCategory) {
+            return res.status(404).json({
+                success: false,
+                message: 'The category with given ID was not found!',
+            });
+        }
+
         const updatedProduct: IProduct = await Product.findByIdAndUpdate(
             id,
             {
                 name,
                 description,
                 richDescription,
-                image,
+                image: imagePath,
                 brand,
                 price,
                 category,

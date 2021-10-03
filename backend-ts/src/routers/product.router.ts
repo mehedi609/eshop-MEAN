@@ -18,7 +18,11 @@ const router = Router();
 
 router.route('/').get(getAllProducts).post(uploadSingleImage, addProduct);
 
-router.route('/:id').get(getProduct).put(updateProduct).delete(removeProduct);
+router
+    .route('/:id')
+    .get(getProduct)
+    .put(uploadSingleImage, updateProduct)
+    .delete(removeProduct);
 
 router.route('/get/count').get(getTotalProductNumber);
 router.route('/get/featured/:count').get(getFeaturedProducts);
