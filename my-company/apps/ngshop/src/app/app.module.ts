@@ -8,6 +8,8 @@ import { ProductLlistComponent } from './pages/product-llist/product-llist.compo
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { UiModule } from '@my-company/ui';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ImportedModule } from '../../../../imported-modules/imported.module';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -26,6 +28,8 @@ const routes: Routes = [
     BrowserModule,
     RouterModule.forRoot([...routes], { initialNavigation: 'enabledBlocking' }),
     UiModule,
+    BrowserAnimationsModule,
+    ImportedModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
