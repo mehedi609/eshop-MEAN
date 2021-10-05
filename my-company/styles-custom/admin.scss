@@ -1,3 +1,5 @@
-// Base Config
-//@import '~normalize.css/normalize.css';
-@import './base';
+@import 'common-import';
+
+@import 'apps/admin';
+
+@import 'libs/ui';

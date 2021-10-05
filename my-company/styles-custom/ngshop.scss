@@ -1,12 +1,4 @@
-// Base Config
-//@import '~normalize.css/normalize.css';
-@import 'base';
-
-// primeNG lib
-@import '~primeng/resources/themes/saga-blue/theme.css';
-@import '~primeng/resources/primeng.min.css';
-@import '~primeicons/primeicons.css';
-@import '~primeflex/primeflex.css';
+@import 'common-import';
 
 // shop - pages n shared
 @import 'apps/shop/shared';

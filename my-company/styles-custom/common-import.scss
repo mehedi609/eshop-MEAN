@@ -1,0 +1,13 @@
+// Base Config
+@import '~normalize.css/normalize.css';
+@import 'base';
+
+// primeNG lib
+@import '~primeng/resources/themes/saga-blue/theme.css';
+@import '~primeng/resources/primeng.min.css';
+@import '~primeicons/primeicons.css';
+@import '~primeflex/primeflex.css';
+
+.active {
+  background-color: var(--blue-700);
+}
